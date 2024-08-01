@@ -6,15 +6,15 @@ export default function NicknamePasswordScreen() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleNicknameChange = (text: string) => {
+  const handleNicknameChange = () => {
     setNickname(text);
   };
 
-  const handlePasswordChange = (text: string) => {
+  const handlePasswordChange = () => {
     setPassword(text);
   };
 
-  const handleConfirmPasswordChange = (text: string) => {
+  const handleConfirmPasswordChange = () => {
     setConfirmPassword(text);
   };
 
