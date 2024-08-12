@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function NicknamePasswordScreen() {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigation = useNavigation();
+
 
   const handleNicknameChange = () => {
     setNickname(text);
@@ -22,6 +25,7 @@ export default function NicknamePasswordScreen() {
     if (password === confirmPassword) {
       console.log('Nickname:', nickname);
       console.log('Password:', password);
+      navigation.navigate('UserDetailsScreen');
       // Handle the next steps here
     } else {
       console.log('Passwords do not match');
