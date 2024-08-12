@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, TextInput, View, Text } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 
 export default function UserDetailsScreen() {
   const [gender, setGender] = useState('male');
@@ -13,6 +14,8 @@ export default function UserDetailsScreen() {
 
   const [birthday, setBirthday] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  const navigation = useNavigation();
 
   const handleBirthdayChange = (text) => {
     setBirthday(text);
@@ -27,6 +30,7 @@ export default function UserDetailsScreen() {
     console.log('Birthday:', birthday);
     console.log('Phone Number:', phoneNumber);
     // Handle the next steps here
+    navigation.navigate('TermsAgreementScreen');
   };
 
   return (
