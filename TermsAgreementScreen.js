@@ -44,7 +44,7 @@ export default function TermsAgreementScreen({ navigation }) {
         if (agreeStatement1 && agreeStatement2 && agreeStatement3 && agreeStatement4) {
             navigation.navigate('NextScreen'); // Replace 'NextScreen' with the actual next screen's name
         } else {
-            Alert.alert('Error', 'You must agree to all the statements to proceed.');
+            Alert.alert('Error', '필수 항목에 동의하셔야 다음으로 넘어갑니다.');
         }
     };
 
@@ -78,7 +78,7 @@ export default function TermsAgreementScreen({ navigation }) {
                     onValueChange={setAgreeStatement2}
                     style={styles.checkbox}
                 />
-                <Text style={styles.label}>(필수)서비스 이용약관 동의.</Text>
+                <Text style={styles.Text}>(필수)서비스 이용약관 동의.</Text>
             </View>
 
             <View style={styles.checkboxContainer}>
@@ -87,31 +87,31 @@ export default function TermsAgreementScreen({ navigation }) {
                     onValueChange={setAgreeStatement3}
                     style={styles.checkbox}
                 />
-                <Text style={styles.label}>(필수)개인정보 처리방침 동의</Text>
+                <Text style={styles.Text}>(필수)개인정보 처리방침 동의</Text>
             </View>
             <View style={styles.checkboxContainer}>
                 <CheckBox
-                    value={agreeStatement3}
+                    value={agreeStatement4}
                     onValueChange={setAgreeStatement4}
                     style={styles.checkbox}
                 />
-                <Text style={styles.label}>(필수)민감정보 수집 및 이용 동의</Text>
+                <Text style={styles.Text}>(필수)민감정보 수집 및 이용 동의</Text>
             </View>
             <View style={styles.checkboxContainer}>
                 <CheckBox
-                    value={agreeStatement3}
+                    value={agreeStatement5}
                     onValueChange={setAgreeStatement5}
                     style={styles.checkbox}
                 />
-                <Text style={styles.label}>(선택)마케팅 수신 동의</Text>
+                <Text style={styles.Text}>(선택)마케팅 수신 동의</Text>
             </View>
             <View style={styles.checkboxContainer}>
                 <CheckBox
-                    value={agreeStatement3}
+                    value={agreeStatement6}
                     onValueChange={setAgreeStatement6}
                     style={styles.checkbox}
                 />
-                <Text style={styles.label}>(선택)이벤트 및 할인 혜택 안내 수신 동의</Text>
+                <Text style={styles.Text}>(선택)이벤트 및 할인 혜택 안내 수신 동의</Text>
             </View>
 
             <Button title="동의하고 가입하기" onPress={handleNext} />
