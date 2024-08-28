@@ -33,7 +33,6 @@ function Dots({ index }) {
 }
 
 function App() {
-
   // Load custom fonts if needed (currently commented out)
   // const [fontsLoaded] = useFonts({
   //   "Pretendard-Bold": require("./assets/fonts/Pretendard-Bold.ttf"),
@@ -50,6 +49,7 @@ function App() {
 
   return (
     <NavigationContainer>
+
       <Stack.Navigator initialRouteName="EditScreenInfo">
         {/* <Stack.Screen
           name="ChooseYourTeam"
@@ -102,10 +102,11 @@ function App() {
         {/* Main Screens */}
         <Stack.Screen name="MypageMain" component={MyPageMain} options={{ title: 'My Page', headerShown: false }} />
         <Stack.Screen name="PickedProduct" component={PickedProduct} options={{ title: '찜한 상품', headerShown: false }} />
-
+        
         {/* Profile Edit Screens */}
         <Stack.Screen name="ProfileEdit" component={ProfileEdit} options={{ headerShown: false }} />
         <Stack.Screen name="ProfileEditDetail" component={ProfileEditDetail} options={{ headerShown: false }} />
+        
 
         {/* Authentication Screens */}
         <Stack.Screen name="Loginpage" component={Login} options={{ title: 'Login' }} />
