@@ -60,7 +60,7 @@ export default function TermsAgreementScreen({ navigation }) {
                     style={styles.checkbox}
                 />
                 <Text style={styles.header}>약관 전체 동의</Text>
-                <Text style={styles.title}>서비스 이용을 위해 아래 약관에 모두 동의합니다</Text>
+                {/* <Text style={styles.title}>서비스 이용을 위해 아래 약관에 모두 동의합니다</Text> */}
             </View>
 
             <View style={styles.checkboxContainer}>
