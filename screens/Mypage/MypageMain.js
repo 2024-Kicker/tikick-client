@@ -1,7 +1,7 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, View, Text, Image, ImageBackground, StyleSheet } from 'react-native';
+import { SafeAreaView, ScrollView, View, Text, Image, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 
-const MyPageMain = () => {
+const MyPageMain = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.scrollView}>
@@ -22,14 +22,17 @@ const MyPageMain = () => {
           
           <View style={styles.profileInfo}>
             <Text style={styles.nickname}>{"닉네임을 말해너구리"}</Text>
-            <View style={styles.editProfile}>
+            <TouchableOpacity
+              style={styles.editProfile}
+              onPress={() => navigation.navigate('ProfileEdit')}
+            >
               <Text style={styles.editProfileText}>{"정보 수정"}</Text>
               <Image
                 source={require('../../assets/arrow_icon.png')} 
                 resizeMode='stretch'
                 style={styles.arrowIcon}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -67,14 +70,17 @@ const MyPageMain = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{"나의 구매 내역"}</Text>
           <View style={styles.itemsRow}>
-            <View style={styles.itemCard}>
+            <TouchableOpacity 
+              style={styles.itemCard}
+              onPress={() => navigation.navigate('PickedProduct')}
+            >
               <Image
                 source={require('../../assets/heart_icon.png')} 
                 resizeMode='stretch'
                 style={styles.itemIcon}
               />
               <Text style={styles.itemText}>{"찜한 상품"}</Text>
-            </View>
+            </TouchableOpacity>
             <View style={styles.itemCard}>
               <Image
                 source={require('../../assets/box_icon.png')} 
@@ -150,7 +156,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#000000", 
     paddingTop: 10,
   },
   pageTitle: {
@@ -158,15 +164,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 33,
     marginLeft: 22,
-    marginTop:20,
+    marginTop: 20,
     fontWeight: "bold",
   },
   profileSection: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 78,
+    marginBottom: 28,
     marginHorizontal: 21,
-    
   },
   profileImageBackground: {
     width: 107,
@@ -182,7 +187,6 @@ const styles = StyleSheet.create({
   },
   profileInfo: {
     flex: 1,
-    
   },
   nickname: {
     color: "#64E77B",
@@ -207,23 +211,23 @@ const styles = StyleSheet.create({
     position: 'relative',
     height: 88,
     marginBottom: 30,
+    backgroundColor: '#000000', 
+    borderRadius: 13, 
+    paddingHorizontal: 16, 
+    justifyContent: 'center', 
   },
   topMenu: {
-    position: "absolute",
-    top: -34,
-    left: 20,
-    width: 353,
-    height: 88,
-    backgroundColor: "#64E77B",
-    borderRadius: 13,
-    paddingHorizontal: 36,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: 'space-between', 
+    backgroundColor: "#64E77B",
+    borderRadius: 13,
+    paddingHorizontal: 20,
+    height: 88,
   },
   topMenuItem: {
     alignItems: "center",
     flexDirection: "row",
-    marginHorizontal: 10,
   },
   topMenuSeparator: {
     width: 1,
@@ -262,9 +266,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingTop: 32,
     paddingBottom: 11,
-    paddingHorizontal: 28,
+    paddingHorizontal: 20,
     shadowColor: "#00000040",
     shadowOpacity: 0.3,
+    alignItems:"center",
     shadowOffset: {
         width: 0,
         height: 0
@@ -274,7 +279,10 @@ const styles = StyleSheet.create({
   },
   itemIcon: {
     height: 25,
+    width:27,
     marginBottom: 20,
+    marginTop:-10,
+    alignItems:"center",
   },
   itemText: {
     color: "#1B1D28",
