@@ -3,18 +3,18 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react
 import { StatusBar } from 'expo-status-bar';
 
 const teams = [
-    { id: '1', name: '전북', logo: require('../../images/jeonbuk.png') },
-    { id: '2', name: '포항', logo: require('../../images/pohang.png') },
-    { id: '3', name: '김천', logo: require('../../images/gimcheon.png') },
-    { id: '4', name: '울산', logo: require('../../images/ulsan.png') },
-    { id: '5', name: '강원', logo: require('../../images/gangwon.png') },
-    { id: '6', name: '서울', logo: require('../../images/seoul.png') },
-    { id: '7', name: '수원', logo: require('../../images/suwon.png') },
-    { id: '8', name: '인천', logo: require('../../images/incheon.png') },
-    { id: '9', name: '제주', logo: require('../../images/jeju.png') },
-    { id: '10', name: '광주', logo: require('../../images/gwangju.png') },
-    { id: '11', name: '대전', logo: require('../../images/daejeon.png') },
-    { id: '12', name: '대구', logo: require('../../images/daegu.png') },
+    { id: '1', name: '전북', logo: require('../../assets/jeonbuk.png') },
+    { id: '2', name: '포항', logo: require('../../assets/pohang.png') },
+    { id: '3', name: '김천', logo: require('../../assets/gimcheon.png') },
+    { id: '4', name: '울산', logo: require('../../assets/ulsan.png') },
+    { id: '5', name: '강원', logo: require('../../assets/gangwon.png') },
+    { id: '6', name: '서울', logo: require('../../assets/seoul.png') },
+    { id: '7', name: '수원', logo: require('../../assets/suwon.png') },
+    { id: '8', name: '인천', logo: require('../../assets/incheon.png') },
+    { id: '9', name: '제주', logo: require('../../assets/jeju.png') },
+    { id: '10', name: '광주', logo: require('../../assets/gwangju.png') },
+    { id: '11', name: '대전', logo: require('../../assets/daejeon.png') },
+    { id: '12', name: '대구', logo: require('../../assets/daegu.png') },
 ];
 
 export default function ChooseYourTeam() {
