@@ -47,7 +47,7 @@ export default function SignUpScreen() {
 
   return (
     <ImageBackground
-      source={require('../../images/signupBackground1.png')} // Adjust the path as needed
+      source={require('../../assets/signupBackground1.png')} // Adjust the path as needed
       style={styles.background}
       resizeMode="stretch"
     >

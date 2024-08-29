@@ -12,10 +12,11 @@ import UserDetailsScreen from './screens/SignUp/UserDetailsScreen';
 import TermsAgreementScreen from './screens/SignUp/TermsAgreementScreen';
 import ChooseYourTeam from './screens/Onboarding/ChooseYourTeam';
 import Login from './screens/Login/Loginpage';
-import MyPageMain from './screens/Mypage/MyPageMain';
-import ProfileEdit from './screens/Mypage/ProfileEdit';
-import ProfileEditDetail from './screens/Mypage/ProfileEditDetail';
-import PickedProduct from './screens/Mypage/PickedProduct';
+
+// import MyPageMain from './screens/Mypage/MyPageMain';
+// import ProfileEdit from './screens/Mypage/ProfileEdit';
+// import ProfileEditDetail from './screens/Mypage/ProfileEditDetail';
+// import PickedProduct from './screens/Mypage/PickedProduct';
 
 const Stack = createStackNavigator();
 

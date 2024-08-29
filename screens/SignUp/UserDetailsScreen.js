@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ImageBackground, TouchableOpacity, Alert, Modal, Button, StyleSheet, TextInput, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CheckBox from 'expo-checkbox';
+import CustomCheckbox from './CustomCheckbox';
 
 export default function UserDetailsScreen() {
   const [gender, setGender] = useState('male');
@@ -14,13 +15,71 @@ export default function UserDetailsScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [fieldsComplete, setFieldsComplete] = useState(false);
 
-  const [agreeAll, setAgreeAll] = useState(false);
-  const [agreeStatement1, setAgreeStatement1] = useState(false);
-  const [agreeStatement2, setAgreeStatement2] = useState(false);
-  const [agreeStatement3, setAgreeStatement3] = useState(false);
-  const [agreeStatement4, setAgreeStatement4] = useState(false);
-  const [agreeStatement5, setAgreeStatement5] = useState(false);
-  const [agreeStatement6, setAgreeStatement6] = useState(false);
+
+  const [checkboxStates, setCheckboxStates] = useState({
+    allChecked: false,
+    option1: false,
+    option2: false,
+    option3: false,
+    option4: false,
+    option5: false,
+    option6: false,
+  });
+
+  const [nextEnabled, setNextEnabled] = useState(false);
+
+  // Update `nextEnabled` whenever `checkboxStates` changes
+  useEffect(() => {
+    const mandatoryOptionsChecked =
+      checkboxStates.option1 &&
+      checkboxStates.option2 &&
+      checkboxStates.option3 &&
+      checkboxStates.option4;
+
+    const allOptionsChecked =
+      mandatoryOptionsChecked &&
+      checkboxStates.option5 &&
+      checkboxStates.option6;
+
+    setNextEnabled(mandatoryOptionsChecked || allOptionsChecked);
+  }, [checkboxStates]);
+
+  const handleCheckAll = () => {
+    const newState = !checkboxStates.allChecked;
+    setCheckboxStates({
+      allChecked: newState,
+      option1: newState,
+      option2: newState,
+      option3: newState,
+      option4: newState,
+      option5: newState,
+      option6: newState,
+    });
+  };
+
+
+
+  const handleCheck = (option) => {
+    setCheckboxStates((prevState) => {
+      const updatedState = {
+        ...prevState,
+        [option]: !prevState[option],
+      };
+
+      const allOptionsChecked =
+        updatedState.option1 &&
+        updatedState.option2 &&
+        updatedState.option3 &&
+        updatedState.option4 &&
+        updatedState.option5 &&
+        updatedState.option6;
+
+      return {
+        ...updatedState,
+        allChecked: allOptionsChecked,
+      };
+    });
+  };
 
   const navigation = useNavigation();
 
@@ -51,32 +110,6 @@ export default function UserDetailsScreen() {
     setModalVisible(true);
   };
 
-  const handleAgreeAllChange = (value) => {
-    setAgreeAll(value);
-    setAgreeStatement1(value);
-    setAgreeStatement2(value);
-    setAgreeStatement3(value);
-    setAgreeStatement4(value);
-    setAgreeStatement5(value);
-    setAgreeStatement6(value);
-  };
-
-  // Handle individual checkboxes
-  const handleIndividualCheckboxChange = (statement, value) => {
-    if (statement === 'statement1') setAgreeStatement1(value);
-    if (statement === 'statement2') setAgreeStatement2(value);
-    if (statement === 'statement3') setAgreeStatement3(value);
-    if (statement === 'statement4') setAgreeStatement4(value);
-    if (statement === 'statement5') setAgreeStatement5(value);
-    if (statement === 'statement6') setAgreeStatement6(value);
-
-    // Update the 'Agree All' checkbox based on individual checkboxes
-    if (value === false) {
-      setAgreeAll(false);
-    } else if (agreeStatement1 && agreeStatement2 && agreeStatement3 && agreeStatement4 && agreeStatement5 && agreeStatement6) {
-      setAgreeAll(true);
-    }
-  };
 
   const handleModalNext = () => {
     if (agreeStatement1 && agreeStatement2 && agreeStatement3 && agreeStatement4) {
@@ -87,9 +120,10 @@ export default function UserDetailsScreen() {
     }
   };
 
+
   return (
     <ImageBackground
-      source={require('../../images/signupBackground1.png')} // Adjust the path as needed
+      source={require('../../assets/signupBackground1.png')} // Adjust the path as needed
       style={styles.background}
       resizeMode="stretch"
     >
@@ -176,7 +210,7 @@ export default function UserDetailsScreen() {
         <TouchableOpacity
           style={[styles.nextButton, fieldsComplete && styles.nextButtonEnabled]}
           onPress={handleNext}
-          disabled={!fieldsComplete}
+        // disabled={!fieldsComplete}
         >
           <Text style={styles.nextButtonText}>다음</Text>
         </TouchableOpacity>
@@ -190,75 +224,65 @@ export default function UserDetailsScreen() {
             <View style={styles.modalContent}>
               <Text style={styles.header}>약관에 동의해주세요</Text>
               <Text style={styles.title}>보다 나은 서비스 제공을 위해 동의가 꼭 필요합니다.{'\n'}</Text>
-
               <View style={styles.firstCheckboxContainer}>
-                <CheckBox
-                  value={agreeAll}
-                  onValueChange={handleAgreeAllChange}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.subHeader}>약관 전체 동의{'\n'}</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.allChecked}
+                  onCheck={handleCheckAll}
+                /><Text style={styles.subHeader}>약관 전체 동의{'\n'}</Text>
               </View>
               <Text style={styles.subText}>서비스 이용을 위해 아래 약관에 모두 동의합니다</Text>
-
-
+              <View style={styles.separator} />
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement1}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement1', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>만 14세 이상입니다.</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option1}
+                  onCheck={() => handleCheck('option1')}
+                /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>만 14세 이상입니다.</Text>
               </View>
-
+              <View style={styles.separator} />
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement2}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement2', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>서비스 이용약관 동의.</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option2}
+                  onCheck={() => handleCheck('option2')}
+                /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>서비스 이용약관 동의.</Text>
               </View>
-
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement3}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement3', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>개인정보 처리방침 동의</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option3}
+                  onCheck={() => handleCheck('option3')}
+                /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>개인정보 처리방침 동의</Text>
               </View>
-
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement4}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement4', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>민감정보 수집 및 이용 동의</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option4}
+                  onCheck={() => handleCheck('option4')}
+                /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>민감정보 수집 및 이용 동의</Text>
               </View>
-
+              <View style={styles.separator} />
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement5}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement5', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}>(선택) 마케팅 수신 동의</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option5}
+                  onCheck={() => handleCheck('option5')}
+                /><Text style={styles.Text}>(선택) 마케팅 수신 동의</Text>
               </View>
-
               <View style={styles.checkboxContainer}>
-                <CheckBox
-                  value={agreeStatement6}
-                  onValueChange={(value) => handleIndividualCheckboxChange('statement6', value)}
-                  style={styles.checkbox}
-                />
-                <Text style={styles.Text}>(선택) 이벤트 및 할인 혜택 안내 수신 동의</Text>
+                <CustomCheckbox
+                  checked={checkboxStates.option6}
+                  onCheck={() => handleCheck('option6')}
+                /><Text style={styles.Text}>(선택) 이벤트 및 할인 혜택 안내 수신 동의</Text>
               </View>
+              <TouchableOpacity
+                style={[
+                  styles.closeButton,
+                  { backgroundColor: nextEnabled ? '#65E77B' : '#d3d3d3' },
+                ]}
+                onPress={handleModalNext}
+                disabled={!nextEnabled}
+              >
+                <Text style={[styles.closeButtonText,
 
-              <TouchableOpacity onPress={handleModalNext} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>동의하고 가입하기</Text>
+                  { color: nextEnabled ? '#000' : '#000' },]}>동의하고 가입하기</Text>
               </TouchableOpacity>
+
             </View>
           </View>
         </Modal>
@@ -268,6 +292,29 @@ export default function UserDetailsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#00c73c',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  checked: {
+    backgroundColor: '#00c73c',
+    borderColor: '#00c73c',
+  },
+  label: {
+    fontSize: 16,
+    color: '#333',
+  },
   background: {
     flex: 1,
     justifyContent: "flex-start",
@@ -281,11 +328,11 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   subText: {
-    fontSize: 16,
+    fontSize: 14,
     marginBottom: 30,
     marginLeft: 30,
     fontWeight: '200',
-  },  
+  },
   Text: {
     // marginLeft: 10,
     fontSize: 14,
@@ -301,7 +348,7 @@ const styles = StyleSheet.create({
   highlightedText: {
     color: '#007F41',
     fontWeight: 'bold',
-},
+  },
   bdText: {
     fontSize: 16,
     marginTop: 20,
@@ -435,7 +482,8 @@ const styles = StyleSheet.create({
   subHeader: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 24
+    marginTop: 5,
+    marginBottom: -15
   },
   modalContent: {
     width: '100%',
@@ -465,10 +513,16 @@ const styles = StyleSheet.create({
   closeButtonText: {
     color: '#919191',
     fontSize: 20,
-  alignContent: 'center',
+    alignContent: 'center',
   },
   closeButtonEnabled: {
     backgroundColor: '#65E77B',
-    // color: '#000000'
+    color: '#000000'
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#efefef',
+    marginBottom: 10,
+    marginTop: -5,
   },
 });
