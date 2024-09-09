@@ -12,7 +12,7 @@ import UserDetailsScreen from './screens/SignUp/UserDetailsScreen';
 import TermsAgreementScreen from './screens/SignUp/TermsAgreementScreen';
 import ChooseYourTeam from './screens/Onboarding/ChooseYourTeam';
 import Login from './screens/Login/Loginpage';
-
+import TourScreen from './screens/Tour/TourMain';
 // import MyPageMain from './screens/Mypage/MyPageMain';
 // import ProfileEdit from './screens/Mypage/ProfileEdit';
 // import ProfileEditDetail from './screens/Mypage/ProfileEditDetail';
@@ -51,17 +51,17 @@ function App() {
   return (
     <NavigationContainer>
 
-      <Stack.Navigator initialRouteName="EditScreenInfo">
-        {/* <Stack.Screen
-          name="ChooseYourTeam"
-          component={ChooseYourTeam}
+      <Stack.Navigator initialRouteName="Signup">
+        <Stack.Screen
+          name="TourScreen"
+          component={TourScreen}
           options={{
-            headerStyle: { backgroundColor: '#000', height: 80 },
-            headerTintColor: '#fff',
+          //   headerStyle: { backgroundColor: '#000', height: 80 },
+          //   headerTintColor: '#fff',
             header: () => null,
             
           }}
-        /> */}
+        />
         <Stack.Screen
           name="SignUpScreen"
           component={SignUpScreen}
@@ -98,23 +98,6 @@ function App() {
             headerRight: () => <Dots index={2} />,
           }}
         />
-      </Stack.Navigator>
-      <Stack.Navigator initialRouteName="MyPageMain">
-        {/* Main Screens */}
-        <Stack.Screen name="MypageMain" component={MyPageMain} options={{ title: 'My Page', headerShown: false }} />
-        <Stack.Screen name="PickedProduct" component={PickedProduct} options={{ title: '찜한 상품', headerShown: false }} />
-        
-        {/* Profile Edit Screens */}
-        <Stack.Screen name="ProfileEdit" component={ProfileEdit} options={{ headerShown: false }} />
-        <Stack.Screen name="ProfileEditDetail" component={ProfileEditDetail} options={{ headerShown: false }} />
-        
-
-        {/* Authentication Screens */}
-        <Stack.Screen name="Loginpage" component={Login} options={{ title: 'Login' }} />
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ title: 'Edit Screen Info' }} />
-        <Stack.Screen name="NicknamePasswordScreen" component={NicknamePasswordScreen} options={{ title: 'Nickname and Password' }} />
-        <Stack.Screen name="UserDetailsScreen" component={UserDetailsScreen} options={{ title: 'User Details' }} />
-        <Stack.Screen name="TermsAgreementScreen" component={TermsAgreementScreen} options={{ title: 'Terms Agreement' }} />
       </Stack.Navigator>
 
     </NavigationContainer>
