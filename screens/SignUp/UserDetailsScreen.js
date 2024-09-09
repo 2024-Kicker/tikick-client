@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, TouchableOpacity, Alert, Modal, Button, StyleSheet, TextInput, View, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import CheckBox from 'expo-checkbox';
 import CustomCheckbox from './CustomCheckbox';
 
@@ -14,6 +14,13 @@ export default function UserDetailsScreen() {
   const [third, setThird] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [fieldsComplete, setFieldsComplete] = useState(false);
+  
+  useFocusEffect(
+    React.useCallback(() => {
+      setModalVisible(true); // Open modal when returning to the screen
+      return () => setModalVisible(false); // Optionally close modal when leaving the screen
+    }, [])
+  );
 
 
   const [checkboxStates, setCheckboxStates] = useState({
@@ -56,7 +63,6 @@ export default function UserDetailsScreen() {
       option6: newState,
     });
   };
-
 
 
   const handleCheck = (option) => {
@@ -112,9 +118,9 @@ export default function UserDetailsScreen() {
 
 
   const handleModalNext = () => {
-    if (agreeStatement1 && agreeStatement2 && agreeStatement3 && agreeStatement4) {
+    if (true) {
       setModalVisible(false);
-      navigation.navigate('NextScreen'); // Replace 'NextScreen' with the actual next screen's name
+      navigation.navigate('ServiceTerms'); // Replace 'NextScreen' with the actual next screen's name
     } else {
       Alert.alert('필수 항목에 동의하셔야 다음으로 넘어갑니다.');
     }
@@ -244,18 +250,27 @@ export default function UserDetailsScreen() {
                   checked={checkboxStates.option2}
                   onCheck={() => handleCheck('option2')}
                 /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>서비스 이용약관 동의.</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('(필수) 서비스 이용 약관')}>
+                  <Text style={styles.viewButton}>보기</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.checkboxContainer}>
                 <CustomCheckbox
                   checked={checkboxStates.option3}
                   onCheck={() => handleCheck('option3')}
                 /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>개인정보 처리방침 동의</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('(필수)개인정보처리방침 동의')}>
+                  <Text style={styles.viewButton}>보기</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.checkboxContainer}>
                 <CustomCheckbox
                   checked={checkboxStates.option4}
                   onCheck={() => handleCheck('option4')}
                 /><Text style={styles.Text}><Text style={styles.highlightedText}>(필수) </Text>민감정보 수집 및 이용 동의</Text>
+                <TouchableOpacity onPress={() => [navigation.navigate('(필수)개인정보 수집 및 활용 동의'), setModalVisible(false)]}>
+                  <Text style={styles.viewButton}>보기</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.separator} />
               <View style={styles.checkboxContainer}>
@@ -263,6 +278,9 @@ export default function UserDetailsScreen() {
                   checked={checkboxStates.option5}
                   onCheck={() => handleCheck('option5')}
                 /><Text style={styles.Text}>(선택) 마케팅 수신 동의</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('(필수)프로모션 정보 수신 동의')}>
+                  <Text style={styles.viewButton}>보기</Text>
+                </TouchableOpacity>
               </View>
               <View style={styles.checkboxContainer}>
                 <CustomCheckbox
@@ -280,7 +298,7 @@ export default function UserDetailsScreen() {
               >
                 <Text style={[styles.closeButtonText,
 
-                  { color: nextEnabled ? '#000' : '#000' },]}>동의하고 가입하기</Text>
+                { color: nextEnabled ? '#000' : '#000' },]}>동의하고 가입하기</Text>
               </TouchableOpacity>
 
             </View>
@@ -497,10 +515,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   closeButton: {
-    // backgroundColor: '#2196F3',
-    // padding: 10,
-    // borderRadius: 5,
-    // marginTop: 20,
     backgroundColor: '#d6d6d6',
     padding: 18,
     borderRadius: 7,
@@ -525,4 +539,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: -5,
   },
+  viewButton: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: '#d6d6d6', // Blue color for the button text
+    textDecorationLine: 'underline',
+  }
 });
