@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Modal, FlatList, Dimensions, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { RadioButton } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+
 
 import banner1 from '../../assets/tour/banner1.png';
 import banner2 from '../../assets/tour/banner2.png';
@@ -25,8 +26,11 @@ const BannerCarousel = () => {
 };
 
 const Card = ({ title, location, imageSource, tag, index }) => {
+    const navigation = useNavigation();
+
     return (
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity style={styles.card}
+        onPress={() => navigation.navigate('오디오 상품', { title, location, imageSource, tag })}>
             <View style={styles.cardContent}>
                 <Text style={styles.cardNumber}>{index + 1}</Text>
                 <Text style={styles.cardLocation}>지역 | {location}</Text>
@@ -80,31 +84,31 @@ const TourScreen = () => {
             title: '낮에 듣는 창덕궁의 비밀',
             location: '서울',
             imageSource: card1,
-            tag: '코인일러 BEST',
+            tag: '오디오',
         },
         {
             title: '낮에 듣는 창덕궁의 비밀',
             location: '서울',
             imageSource: card1,
-            tag: '코인일러 BEST',
+            tag: '오디오',
         },
         {
             title: '낮에 듣는 창덕궁의 비밀',
             location: '서울',
             imageSource: card1,
-            tag: '코인일러 BEST',
+            tag: '오디오',
         },
         {
             title: '낮에 듣는 창덕궁의 비밀',
             location: '서울',
             imageSource: card1,
-            tag: '코인일러 BEST',
+            tag: '오디오',
         },
         {
             title: '낮에 듣는 창덕궁의 비밀',
             location: '서울',
             imageSource: card1,
-            tag: '코인일러 BEST',
+            tag: '오디오',
         },
         // Add more cards here
     ];
@@ -242,14 +246,14 @@ const styles = StyleSheet.create({
         marginTop: 24
     },
     messageText: {
-        paddingHorizontal: 5,
+        paddingHorizontal: 10,
         paddingVertical: 10,
-        fontSize: 10,
+        fontSize: 8,
         color: '#000'
     },
     messageTextContainer: {
         backgroundColor: 'white',
-        borderRadius: 7,
+        borderRadius: 20,
         marginRight:10,
         color: '#000'
     },

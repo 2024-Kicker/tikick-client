@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { View, Button, Modal, ImageBackground, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, Button, Modal, ImageBackground, StyleSheet, Text, TouchableOpacity, BackHandler } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts } from "expo-font";
 
@@ -17,6 +17,7 @@ import PrivacyTerms from './screens/SignUp/PrivacyTerms';
 import ServiceTerms from './screens/SignUp/ServiceTerms';
 import UseOfInfoTerms from './screens/SignUp/UseOfInfoTerms';
 import MarketingTerms from './screens/SignUp/MarketingTerms';
+import AudioDetailScreen from './screens/Tour/AudioDetailScreen';
 // import MyPageMain from './screens/Mypage/MyPageMain';
 // import ProfileEdit from './screens/Mypage/ProfileEdit';
 // import ProfileEditDetail from './screens/Mypage/ProfileEditDetail';
@@ -56,16 +57,13 @@ function App() {
     <NavigationContainer>
 
       <Stack.Navigator initialRouteName="Signup">
-        {/* <Stack.Screen
-          name="TourScreen"
+        <Stack.Screen
+          name="랜선투어"
           component={TourScreen}
           options={{
-          //   headerStyle: { backgroundColor: '#000', height: 80 },
-          //   headerTintColor: '#fff',
-            header: () => null,
-            
+            headerShown: false,
           }}
-        /> */}
+        />
         <Stack.Screen
           name="SignUpScreen"
           component={SignUpScreen}
@@ -102,23 +100,31 @@ function App() {
             headerRight: () => <Dots index={2} />,
           }}
         />
-        <Stack.Screen 
-        name="(필수)개인정보처리방침 동의"
-        component={PrivacyTerms}
+        <Stack.Screen
+          name="(필수)개인정보처리방침 동의"
+          component={PrivacyTerms}
         />
-        <Stack.Screen 
-        name="(필수) 서비스 이용 약관"
-        component={ServiceTerms}
+        <Stack.Screen
+          name="(필수) 서비스 이용 약관"
+          component={ServiceTerms}
         />
-        <Stack.Screen 
-        name="(필수)개인정보 수집 및 활용 동의"
-        component={UseOfInfoTerms}
+        <Stack.Screen
+          name="(필수)개인정보 수집 및 활용 동의"
+          component={UseOfInfoTerms}
         />
-        <Stack.Screen 
-        name="(필수)프로모션 정보 수신 동의"
-        component={MarketingTerms}
+        <Stack.Screen
+          name="(필수)프로모션 정보 수신 동의"
+          component={MarketingTerms}
         />
-
+        <Stack.Screen name="오디오 상품" component={AudioDetailScreen}
+          options={{
+            title: '오디오 상품',
+            headerTintColor: '#fff',
+            headerStyle: {
+              backgroundColor: '#1B1D28',
+              height: 120,
+            }
+          }} />
       </Stack.Navigator>
 
     </NavigationContainer>
