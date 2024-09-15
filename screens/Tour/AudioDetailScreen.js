@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Image, ScrollView, FlatList, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import card1 from '../../assets/tour/card1.png';
 import kiki from '../../assets/tour/kiki.png';
@@ -10,53 +10,122 @@ const AudioDetailScreen = ({ route, navigation }) => {
     const { title, location, imageSource, tag } = route.params;
 
     const [activeTab, setActiveTab] = useState('상품정보');
+    const [isFavorite, setIsFavorite] = useState(false); // Add state for favorite
 
-    const commentCard = () => {
+    const comments = [
+        {
+            username: 'user1',
+            date: '08.20.2024',
+            rating: 4,
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor nisl eu est viverra, quis molestie nibh blandit. In lectus felis, iaculis mauris.',
+        },        {
+            username: 'user1',
+            date: '08.20.2024',
+            rating: 5,
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor nisl eu est viverra, quis molestie nibh blandit. In lectus felis, iaculis mauris.',
+        },
+        {
+            username: 'user1',
+            date: '08.20.2024',
+            rating: 3,
+            text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis auctor nisl eu est viverra, quis molestie nibh blandit. In lectus felis, iaculis mauris.',
+        },
 
-    }
+    ];
+
+    const handleFavoritePress = () => {
+        setIsFavorite(!isFavorite); // Toggle the favorite state
+    };
+
+    const renderStars = (rating) => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {
+            stars.push(
+                <Ionicons
+                    key={i}
+                    name={i <= rating ? "star" : "star-outline"}
+                    size={16}
+                    color="#FFD700" // Gold color for stars
+                />
+            );
+        }
+        return <View style={styles.starsContainer}>{stars}</View>;
+    };
+
+    const CommentCard = ({ username, text, date, rating }) => {
+
+        return (
+            <View style={styles.comment}>
+                <View style={styles.commentInfo}>
+                    <View style={styles.commentProfile}>
+                        <Ionicons name="person-circle-outline" size={30} color="gray" />
+                    </View>
+
+                    <View style={styles.commentPicNext}>
+                        {renderStars(rating)}
+                        <Text style={styles.commentAuthor}>{username}   {date}</Text>
+                    </View>
+                </View>
+
+
+                <View style={styles.commentContent}>
+                    <Text style={styles.commentText}>{text}</Text>
+                </View>
+            </View>
+        );
+    };
 
     const renderContent = () => {
         switch (activeTab) {
             case '상품정보':
                 return (
                     <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={styles.infoContainer}>
-                        <Text style={styles.infoText}>상품정보 내용입니다.</Text>
-                    </View>
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.infoText}>상품정보 내용입니다.</Text>
+                        </View>
                     </ScrollView>
                 );
             case '구매후기':
-                // return (
-                //     <View style={styles.reviewContainer}>
-                //         <Ionicons name="chatbubble-ellipses-outline" size={40} color="black" />
-                //         <Text style={styles.noReviewText}>아직 작성된 리뷰가 없어요</Text>
-                //     </View>
-                // );
-                return (
-                    <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={styles.reviewContainer}>
-                        <Ionicons name="chatbubble-ellipses-outline" size={40} color="black" />
-                        <Text style={styles.noReviewText}>아직 작성된 리뷰가 없어요</Text>
-                    </View>
-                    </ScrollView>
-                );
+                if (comments.length > 0) {
+                    return (
+
+                        <View style={styles.reviewContainer}>
+                            <FlatList
+                                data={comments}
+                                renderItem={renderItem}
+                                keyExtractor={(item, index) => index.toString()}
+                                contentContainerStyle={styles.cardList}
+                                style={{ paddingBottom: 20 }}
+                            />
+                        </View>);
+                }
+                else {
+                    return (
+                        <View style={styles.reviewContainer}>
+                            <Ionicons name="chatbubble-ellipses-outline" size={40} color="black" />
+                            <Text style={styles.noReviewText}>아직 작성된 리뷰가 없어요</Text>
+                        </View>);
+                }
             case '문의하기':
                 return (
                     <ScrollView contentContainerStyle={styles.scrollContent}>
-                    <View style={styles.inquiryContainer}>
-                        <Image source={faq} style={styles.inquiryImage}></Image>
+                        <View style={styles.inquiryContainer}>
+                            <Image source={faq} style={styles.inquiryImage}></Image>
 
-                        <TouchableOpacity style={styles.inquiryButton}>
-                        {/* <TouchableOpacity style={styles.inquiryButton} onPress={() => navigation.goBack()}> */}
-                            <Text style={styles.inquiryText}>상품 문의하기</Text>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity style={styles.inquiryButton}>
+                                {/* <TouchableOpacity style={styles.inquiryButton} onPress={() => navigation.goBack()}> */}
+                                <Text style={styles.inquiryText}>상품 문의하기</Text>
+                            </TouchableOpacity>
+                        </View>
                     </ScrollView>
                 );
             default:
                 return null;
         }
     }
+    const renderItem = ({ item, index }) => (
+        <CommentCard username={item.username} date={item.date} rating={item.rating} text={item.text} />
+    );
 
     return (
         <View style={styles.container}>
@@ -96,17 +165,17 @@ const AudioDetailScreen = ({ route, navigation }) => {
                 </View>
 
                 {renderContent()}
-
-                {/* <View style={styles.reviewContainer}>
-                    <Ionicons name="chatbubble-ellipses-outline" size={40} color="black" />
-                    <Text style={styles.noReviewText}>아직 작성된 리뷰가 없어요</Text>
-                </View> */}
             </View>
             <View style={[styles.bottomContainer, { width: screenWidth }]}>
                 <View style={[styles.purchaseContainer, { width: screenWidth }]}>
-                    <View style={styles.favorite}>
+                    <TouchableOpacity style={styles.favorite} onPress={handleFavoritePress}>
+                        <Ionicons
+                            name={isFavorite ? "heart" : "heart-outline"}
+                            size={24}
+                            color={isFavorite ? "#65E77B" : "black"}
+                        />
                         <Text style={styles.favoriteText}>찜하기</Text>
-                    </View>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.purchaseButton}>
                         <Text style={styles.purchaseButtonText}>구매하기</Text>
                     </TouchableOpacity>
@@ -124,6 +193,9 @@ const AudioDetailScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
+    starsContainer: {
+        flexDirection: 'row',
+    },
     container: {
         flex: 1,
         backgroundColor: 'white',
@@ -209,8 +281,9 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     reviewContainer: {
-        alignItems: 'center',
-        padding: 30,
+        height: 175,
+        paddingTop: 20,
+        alignItems: 'center'
     },
     noReviewText: {
         fontSize: 16,
@@ -244,6 +317,8 @@ const styles = StyleSheet.create({
         color: '#65E77B',
     },
     bottomContainer: {
+        position: 'absolute',
+        bottom: 0,
         marginBottom: 18,
     },
     purchaseContainer: {
@@ -251,11 +326,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     favorite: {
+        alignItems: 'center',
         backgroundColor: 'white',
-        padding: 18,
+        paddingHorizontal: 18,
+        paddingTop: 10,
     },
     favoriteText: {
         color: 'black',
+        fontWeight: 'bold',
     },
     purchaseButton: {
         backgroundColor: '#000',
@@ -271,11 +349,33 @@ const styles = StyleSheet.create({
     bottomNav: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingVertical: 10,
+        paddingTop: 10,
         backgroundColor: 'white',
         borderTopWidth: 1,
         borderColor: '#ddd',
     },
+    comment: {
+        marginLeft: 20,
+        flexDirection: 'column',
+        marginBottom: 20,
+        alignItems: 'left',
+    },
+    commentInfo: {
+        flexDirection: 'row',
+    },
+    commentProfile: {
+        marginRight: 10,
+    },
+    commentAuthor: {
+        fontSize: 10,
+        marginVertical: 5,
+    },
+    commentText: {
+        fontSize: 14,
+        color: '#333',
+    },
+
+
 });
 
 export default AudioDetailScreen;

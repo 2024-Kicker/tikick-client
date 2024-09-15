@@ -30,10 +30,12 @@ const Card = ({ title, location, imageSource, tag, index }) => {
 
     return (
         <TouchableOpacity style={styles.card}
-        onPress={() => navigation.navigate('오디오 상품', { title, location, imageSource, tag })}>
+            onPress={() => navigation.navigate('오디오 상품', { title, location, imageSource, tag })}>
             <View style={styles.cardContent}>
-                <Text style={styles.cardNumber}>{index + 1}</Text>
-                <Text style={styles.cardLocation}>지역 | {location}</Text>
+                <View style={styles.cardTopContent}>
+                    <Text style={styles.cardNumber}>{index + 1}</Text>
+                    <Text style={styles.cardLocation}>  지역 | {location}</Text>
+                </View>
                 <Text style={styles.cardTitle}>{title}</Text>
                 <View style={styles.cardTagContainer}>
                     <Image source={kiki} style={styles.cardTagImage} />
@@ -122,8 +124,8 @@ const TourScreen = () => {
                         <Text style={styles.headerText}>랜선투어</Text>
                     </View>
                     <View style={styles.headerOrdersContainer}>
-                    <View style={styles.messageTextContainer}>
-                        <Text style={styles.messageText}>구매내역은 여기서!</Text>
+                        <View style={styles.messageTextContainer}>
+                            <Text style={styles.messageText}>구매내역은 여기서!</Text>
                         </View>
                         <Ionicons name="file-tray-full-outline" size={24} color="#65E77B" />
                     </View>
@@ -246,15 +248,15 @@ const styles = StyleSheet.create({
         marginTop: 24
     },
     messageText: {
+        marginTop: 10,
         paddingHorizontal: 10,
-        paddingVertical: 10,
         fontSize: 8,
         color: '#000'
     },
     messageTextContainer: {
         backgroundColor: 'white',
         borderRadius: 20,
-        marginRight:10,
+        marginRight: 10,
         color: '#000'
     },
     bannerContainer: {
@@ -305,6 +307,9 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         flexDirection: 'row',
     },
+    cardTopContent: {
+        flexDirection: 'row',
+    },
     cardImageContainer: {
         width: 100,
         height: 100,
@@ -321,20 +326,23 @@ const styles = StyleSheet.create({
         right: 10,
     },
     cardContent: {
+        justifyContent: 'space-between',
         flex: 1,
         paddingTop: 10,
         paddingHorizontal: 10,
     },
     cardNumber: {
-        fontSize: 18,
+        marginLeft: 10,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     cardLocation: {
-        fontSize: 14,
+        fontSize: 12,
         color: 'gray',
         marginVertical: 5,
     },
     cardTitle: {
+        marginLeft: 24,
         fontSize: 16,
         fontWeight: 'bold',
     },
@@ -352,10 +360,11 @@ const styles = StyleSheet.create({
         borderColor: '#ddd',
     },
     cardTagImage: {
+        marginLeft: 10,
+        marginBottom: 8,
         width: 20,     // Adjust the width as needed
         height: 20,    // Adjust the height as needed
         resizeMode: 'contain',
-        marginRight: 5,
     },
     modalOverlay: {
         flex: 1,
